@@ -1,0 +1,149 @@
+﻿@model IEnumerable<Try.Models.Destinations>
+
+@{
+    ViewData["Title"] = "Explore Destinations";
+}
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+</head>
+
+<a asp-controller="User" asp-action="Dashboard" class="btn btn-secondary mb-3">Back to Dashboard</a>
+<h2 class="text-center mb-4 text-success fw-bold">Explore Destinations</h2>
+
+<div class="container">
+    <div class="row justify-content-center">
+        @if (Model != null && Model.Any())
+        {
+            @foreach (var item in Model)
+            {
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card shadow-lg border-0 rounded overflow-hidden">
+                        @if (!string.IsNullOrEmpty(item.ImageURL))
+                        {
+                            <img src="@item.ImageURL" class="card-img-top clickable-image" alt="@item.Name" style="height: 220px; object-fit: cover;" data-bs-toggle="modal" data-bs-target="#destinationModal" data-name="@item.Name" data-location="@item.Location" data-description="@item.Description">
+                        }
+                        <div class="card-body text-center bg-light">
+                            <h5 class="card-title text-success fw-bold">@item.Name</h5>
+                            <p class="card-text text-muted"><strong>Location:</strong> @item.Location</p>
+                            <p class="card-text">@item.Description</p>
+                            <a href="#" class="btn btn-outline-success btn-sm feedback-btn"
+                               data-bs-toggle="modal" data-bs-target="#feedbackModal">
+                                <i class="fas fa-comment-dots"></i> Feedback
+                            </a>
+
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="col-12 text-center">
+                <p class="text-muted">No destinations available.</p>
+            </div>
+        }
+    </div>
+</div>
+<!-- Feedback Modal -->
+<div class="modal fade" id="feedbackModal" tabindex="-1" aria-labelledby="feedbackModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="feedbackModalLabel">Feedbacks</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div id="feedbackContainer">
+                    <p class="text-muted text-center">Loading feedback...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="destinationModal" tabindex="-1" aria-labelledby="destinationModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="destinationModalLabel"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Location:</strong> <span id="modalLocation"></span></p>
+                <p id="modalDescription"></p>
+            </div>
+            <div class="modal-footer">
+                <a asp-controller="User" asp-action="Feedback" class="btn btn-primary">Give Feedback</a>
+                <a asp-controller="User" asp-action="Inquiries" class="btn btn-secondary">Send Inquiry</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var modal = document.getElementById("destinationModal");
+        modal.addEventListener("show.bs.modal", function (event) {
+            var button = event.relatedTarget;
+            var name = button.getAttribute("data-name");
+            var location = button.getAttribute("data-location");
+            var description = button.getAttribute("data-description");
+
+            document.getElementById("destinationModalLabel").textContent = name;
+            document.getElementById("modalLocation").textContent = location;
+            document.getElementById("modalDescription").textContent = description;
+        });
+    });
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Destination Modal Logic
+        var modal = document.getElementById("destinationModal");
+        modal.addEventListener("show.bs.modal", function (event) {
+            var button = event.relatedTarget;
+            var name = button.getAttribute("data-name");
+            var location = button.getAttribute("data-location");
+            var description = button.getAttribute("data-description");
+
+            document.getElementById("destinationModalLabel").textContent = name;
+            document.getElementById("modalLocation").textContent = location;
+            document.getElementById("modalDescription").textContent = description;
+        });
+
+        // Feedback Modal - Load Data
+           var feedbackModal = document.getElementById("feedbackModal");
+    feedbackModal.addEventListener("show.bs.modal", function () {
+        var feedbackContainer = document.getElementById("feedbackContainer");
+        feedbackContainer.innerHTML = '<p class="text-muted text-center">Loading feedback...</p>';
+
+        fetch('/User/GetFeedbacks') // Adjust to your controller action
+            .then(response => response.json())
+            .then(data => {
+                console.log("Fetched data:", data); // Debugging
+                feedbackContainer.innerHTML = "";
+                if (data.length > 0) {
+                    data.forEach(feedback => {
+                        feedbackContainer.innerHTML += `
+                            <div class="border rounded p-3 mb-2 bg-light">
+                                <p>${feedback.message}</p>
+                                <small class="text-muted">${new Date(feedback.submittedAt).toLocaleString()}</small>
+                            </div>`;
+                    });
+                } else {
+                    feedbackContainer.innerHTML = '<p class="text-muted text-center">No feedback available.</p>';
+                }
+            })
+            .catch(error => {
+                console.error("Error loading feedback:", error);
+                feedbackContainer.innerHTML = '<p class="text-danger text-center">Failed to load feedback.</p>';
+            });
+    });
+
+    });
+</script>

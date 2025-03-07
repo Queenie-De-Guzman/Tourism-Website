@@ -1,0 +1,26 @@
+﻿@model Try.Models.Feedback
+
+@{
+    ViewData["Title"] = "Submit Feedback";
+}
+
+<div class="container mt-5">
+    <h2 class="text-center text-success">Submit Feedback</h2>
+    <p class="text-center">We value your feedback! Please share your thoughts below.</p>
+
+    <form asp-controller="User" asp-action="SubmitFeedback" method="post" class="shadow p-4 rounded bg-light">
+        <div class="mb-3">
+            <label asp-for="Message" class="form-label">Your Feedback</label>
+            <textarea asp-for="Message" class="form-control" rows="5" required></textarea>
+            <span asp-validation-for="Message" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-success w-100">Submit Feedback</button>
+    </form>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

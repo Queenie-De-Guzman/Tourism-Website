@@ -1,0 +1,86 @@
+﻿@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Welcome to the Admin Dashboard</h2>
+
+    <div class="row g-4">
+        <!-- Manage Users -->
+        <div class="col-md-4">
+            <div class="card text-white bg-primary shadow-lg h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Manage Users</h5>
+                    <p class="card-text">View and manage all registered users.</p>
+                    <a asp-controller="Admin" asp-action="Dashboard" class="btn btn-light">Go to Users</a>
+                </div>
+            </div>
+        </div>
+        <!-- Feedback -->
+        <div class="col-md-4">
+            <div class="card text-white bg-success shadow-lg h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Tour Promotional Video</h5>
+                    <p class="card-text">Promotional Video.</p>
+                    <a asp-controller="TourPromotionalVideo" asp-action="ListVideo" class="btn btn-light">View </a>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Destination -->
+        <div class="col-md-4">
+            <div class="card text-white bg-info shadow-lg h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Destination</h5>
+                    <p class="card-text">Check available destinations.</p>
+                    <a asp-controller="Destination" asp-action="Destinations" class="btn btn-light">View Destinations</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Feedback -->
+        <div class="col-md-4">
+            <div class="card text-white bg-success shadow-lg h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Feedback</h5>
+                    <p class="card-text">Review user feedback.</p>
+                    <a asp-controller="Admin" asp-action="Feedback" class="btn btn-light">View Feedback</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Inquiries -->
+        <div class="col-md-4">
+            <div class="card text-white bg-warning shadow-lg h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Inquiries</h5>
+                    <p class="card-text">Manage user inquiries.</p>
+                    <a asp-controller="Admin" asp-action="Inquiries" class="btn btn-light">View Inquiries</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Packages -->
+        <div class="col-md-4">
+            <div class="card text-white bg-warning shadow-lg h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Tour Packages</h5>
+                    <p class="card-text">Manage Tour Pacakges.</p>
+                    <a asp-controller="Admin" asp-action="TourPackages" class="btn btn-light">View Tour Packages</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Logout -->
+        <div class="col-md-4">
+            <div class="card text-white bg-danger shadow-lg h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Logout</h5>
+                    <p class="card-text">End your session securely.</p>
+                    <a asp-controller="User" asp-action="Logout" class="btn btn-light">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

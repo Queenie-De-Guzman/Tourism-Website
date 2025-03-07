@@ -1,0 +1,46 @@
+﻿@model IEnumerable<Try.Models.Destinations>
+@{
+    ViewData["Title"] = "Welcome to Your Dashboard";
+}
+
+<div class="container mt-5">
+    <div class="text-center mb-4">
+        <h2 class="text-success">Welcome to the User Dashboard</h2>
+        <p>Explore destinations, manage your profile, and enjoy your journey.</p>
+    </div>
+
+    <div class="row g-4">
+        <!-- Explore Destinations -->
+        <div class="col-md-4">
+            <div class="card text-white bg-success shadow-lg h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Explore Destinations</h5>
+                    <p class="card-text">Discover amazing places uploaded by our admins.</p>
+                    <a asp-controller="User" asp-action="DestinationView" class="btn btn-light">View Destinations</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Inquiries -->
+        <div class="col-md-4">
+            <div class="card text-white bg-primary shadow-lg h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Inquiries</h5>
+                    <p class="card-text">Send your inquiries to our team.</p>
+                    <a asp-controller="User" asp-action="Inquiries" class="btn btn-light">Submit Inquiry</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Logout -->
+        <div class="col-md-4">
+            <div class="card text-white bg-danger shadow-lg h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Logout</h5>
+                    <p class="card-text">End your session securely.</p>
+                    <a asp-controller="Account" asp-action="Logout" class="btn btn-light">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

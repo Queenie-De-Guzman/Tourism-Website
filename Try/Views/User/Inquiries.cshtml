@@ -1,0 +1,38 @@
+﻿@model Try.Models.Inquiries
+
+@{
+    ViewData["Title"] = "Submit an Inquiry";
+}
+
+<div class="container mt-5">
+    <h2 class="text-center text-success">Submit an Inquiry</h2>
+    <p class="text-center">Have a question? Fill out the form below, and we'll get back to you soon.</p>
+
+    <form asp-controller="User" asp-action="SubmitInquiry" method="post" class="shadow p-4 rounded bg-light">
+        <div class="mb-3">
+            <label asp-for="Name" class="form-label">Full Name</label>
+            <input asp-for="Name" class="form-control" required>
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Email" class="form-label">Email Address</label>
+            <input asp-for="Email" type="email" class="form-control" required>
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Message" class="form-label">Message</label>
+            <textarea asp-for="Message" class="form-control" rows="5" required></textarea>
+            <span asp-validation-for="Message" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-success w-100">Submit Inquiry</button>
+    </form>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

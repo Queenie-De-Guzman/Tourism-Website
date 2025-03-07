@@ -1,0 +1,51 @@
+﻿@model IEnumerable<Try.Models.Inquiries>
+
+@{
+    ViewData["Title"] = "Admin Inquiries";
+}
+<div class="mb-3">
+    <a asp-controller="Admin" asp-action="Dashboard" class="btn btn-primary">🏠 Home</a>
+    </div>
+
+<div class="container mt-5">
+    <h2 class="text-center text-primary">Inquiries</h2>
+    <p class="text-center">View and manage user inquiries.</p>
+
+    @if (Model != null && Model.Any())
+    {
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped">
+                <thead class="table-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Message</th>
+                        <th>Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var inquiry in Model)
+                    {
+                        <tr>
+                            <td>@inquiry.InquiryID</td>
+                            <td>@inquiry.Name</td>
+                            <td>@inquiry.Email</td>
+                            <td>@inquiry.Message</td>
+                            <td>@inquiry.InquiryDate.ToString("yyyy-MM-dd HH:mm")</td>
+                            <td>
+                                <a href="mailto:@inquiry.Email" class="btn btn-success btn-sm">Reply</a>
+                                <a asp-controller="Admin" asp-action="DeleteInquiry" asp-route-id="@inquiry.InquiryID" class="btn btn-danger btn-sm">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <p class="text-muted text-center">No inquiries available.</p>
+    }
+</div>

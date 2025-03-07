@@ -1,0 +1,23 @@
+﻿@model Try.Models.Destinations
+
+@{
+    ViewData["Title"] = "Destination Details";
+}
+
+<h2>Destination Details</h2>
+
+<div class="card" style="width: 30rem;">
+    @if (!string.IsNullOrEmpty(Model.ImageURL))
+    {
+        <img src="@Model.ImageURL" class="card-img-top" alt="Destination Image" style="max-height: 300px; object-fit: cover;">
+    }
+    <div class="card-body">
+        <h4 class="card-title">@Model.Name</h4>
+        <p class="card-text"><strong>Location:</strong> @Model.Location</p>
+        <p class="card-text"><strong>Description:</strong> @Model.Description</p>
+    </div>
+</div>
+
+<a asp-action="Destinations" class="btn btn-primary mt-3">Back to List</a>
+<a asp-action="Edit" asp-route-id="@Model.DestinationID" class="btn btn-warning mt-3">Edit</a>
+<a asp-action="Delete" asp-route-id="@Model.DestinationID" class="btn btn-danger mt-3">Delete</a>

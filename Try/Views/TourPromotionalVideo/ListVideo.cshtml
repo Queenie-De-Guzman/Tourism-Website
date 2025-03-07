@@ -1,0 +1,36 @@
+﻿@model IEnumerable<TourPromotionalVideos>
+
+@{
+    ViewData["Title"] = "Manage Promotional Videos";
+}
+
+<h2 class="text-center">Manage Tour Promotional Videos</h2>
+
+<a href="@Url.Action("Create")" class="btn btn-success mb-3">Add New Video</a>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Thumbnail</th>
+            <th>Video URL</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var video in Model)
+        {
+            <tr>
+                <td>@video.VideoTitle</td>
+                <td>
+                    <img src="@video.ThumbnailURL" alt="Thumbnail" width="80">
+                </td>
+                <td><a href="@video.VideoURL" target="_blank">Watch</a></td>
+                <td>
+                    <a href="@Url.Action("Edit", new { id = video.VideoID })" class="btn btn-primary">Edit</a>
+                    <a href="@Url.Action("Delete", new { id = video.VideoID })" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,84 @@
+﻿@model IEnumerable<Try.Models.TourPackages>
+
+@{
+    ViewData["Title"] = "Tour Packages";
+}
+
+<div class="container mt-4">
+    <h2 class="text-center text-success">Available Tour Packages</h2>
+    <div class="row justify-content-center">
+        @if (Model != null && Model.Any())
+        {
+            @foreach (var item in Model)
+            {
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card shadow-lg border-0 rounded overflow-hidden">
+                        @if (!string.IsNullOrEmpty(item.ImagePath))
+                        {
+                            <img src="@item.ImagePath" class="card-img-top clickable-image" 
+                                 alt="@item.PackageName" 
+                                 style="height: 400px; object-fit: cover;"
+                                 data-bs-toggle="modal" 
+                                 data-bs-target="#packageModal"
+                                 data-name="@item.PackageName"
+                                 data-price="@item.Price"
+                                 data-duration="@item.DurationDays"
+                                 data-startdate="@item.StartDate.ToShortDateString()"
+                                 data-enddate="@item.EndDate.ToShortDateString()">
+                        }
+                        <div class="card-body text-center bg-light">
+                            <h5 class="card-title text-success fw-bold">@item.PackageName</h5>
+                            <p class="card-text text-muted">
+                                <strong>Price:</strong> @item.Price
+                            </p>
+                            <p class="card-text"><strong>Duration:</strong> @item.DurationDays days</p>
+                            <p class="card-text"><strong>Start Date:</strong> @item.StartDate.ToShortDateString()</p>
+                            <p class="card-text"><strong>End Date:</strong> @item.EndDate.ToShortDateString()</p>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="col-12 text-center">
+                <p class="text-muted">No tour packages available.</p>
+            </div>
+        }
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="packageModal" tabindex="-1" aria-labelledby="packageModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-success" id="packageModalLabel"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <img id="modalImage" src="" class="img-fluid rounded mb-3" alt="Tour Image">
+                <p><strong>Price:</strong> <span id="modalPrice"></span></p>
+                <p><strong>Duration:</strong> <span id="modalDuration"></span> days</p>
+                <p><strong>Start Date:</strong> <span id="modalStartDate"></span></p>
+                <p><strong>End Date:</strong> <span id="modalEndDate"></span></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var packageModal = document.getElementById("packageModal");
+
+        packageModal.addEventListener("show.bs.modal", function (event) {
+            var button = event.relatedTarget;
+            document.getElementById("packageModalLabel").textContent = button.getAttribute("data-name");
+            document.getElementById("modalImage").src = button.src;
+            document.getElementById("modalPrice").textContent = "$" + button.getAttribute("data-price");
+            document.getElementById("modalDuration").textContent = button.getAttribute("data-duration");
+            document.getElementById("modalStartDate").textContent = button.getAttribute("data-startdate");
+            document.getElementById("modalEndDate").textContent = button.getAttribute("data-enddate");
+        });
+    });
+</script>

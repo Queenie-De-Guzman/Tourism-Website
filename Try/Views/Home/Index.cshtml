@@ -1,0 +1,54 @@
+﻿@model IEnumerable<Try.Models.Destinations>
+
+
+@{
+    ViewData["Title"] = "Home";
+}
+
+<div class="container text-center mt-5">
+    <div class="jumbotron bg-light p-5 rounded">
+        <h1 class="display-3 text-success">Discover Breathtaking Destinations</h1>
+        <p class="lead">Experience the beauty, culture, and adventure of the world's most stunning locations.</p>
+        <a class="btn btn-success btn-lg" href="@Url.Action("Index", "TourPromotionalVideo")">View Tour Packages</a>
+    </div>
+</div>
+<div class="container">
+<div class="row justify-content-center">
+    @if (Model != null && Model.Any())
+    {
+        @foreach (var item in Model)
+        {
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card shadow-lg border-0 rounded overflow-hidden">
+                    @if (!string.IsNullOrEmpty(item.ImageURL))
+                    {
+                        <img src="@item.ImageURL" class="card-img-top clickable-image" alt="@item.Name" style="height: 220px; object-fit: cover;" data-bs-toggle="modal" data-bs-target="#destinationModal" data-name="@item.Name" data-location="@item.Location" data-description="@item.Description">
+                    }
+                    <div class="card-body text-center bg-light">
+                        <h5 class="card-title text-success fw-bold">@item.Name</h5>
+                        <p class="card-text text-muted"><strong>Location:</strong> @item.Location</p>
+                        <p class="card-text">@item.Description</p>
+                        <a href="#" class="text-warning" title="Add to Favorites">
+                            <i class=""></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="col-12 text-center">
+            <p class="text-muted">No destinations available.</p>
+        </div>
+    }
+</div>
+</div>
+
+<div class="container text-center mt-5">
+    <h2 class="text-success">Plan Your Next Journey</h2>
+    <p class="lead">Find the perfect destination, book hotels, and explore exciting tours.</p>
+    <a class="btn btn-success btn-lg" href="@Url.Action("TourPackages", "Home")">View Tour Packages</a>
+</div>
+
+

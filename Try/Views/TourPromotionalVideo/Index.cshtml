@@ -1,0 +1,26 @@
+﻿@model IEnumerable<Try.Models.TourPromotionalVideos>
+
+
+@{
+    ViewData["Title"] = "Tour Promotional Videos";
+}
+
+<h2 class="text-center">Tour Promotional Videos</h2>
+
+<div class="container">
+    <div class="row">
+        @foreach (var video in Model)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <img src="@video.ThumbnailURL" class="card-img-top" alt="Video Thumbnail">
+                    <div class="card-body">
+                        <h5 class="card-title">@video.VideoTitle</h5>
+                        <p class="card-text">@video.Description</p>
+                        <a href="@video.VideoURL" class="btn btn-primary" target="_blank">Watch Video</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

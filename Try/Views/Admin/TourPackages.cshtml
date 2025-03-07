@@ -1,0 +1,51 @@
+﻿@model IEnumerable<Try.Models.TourPackages>
+
+@{
+    ViewData["Title"] = "Manage Tour Packages";
+}
+
+<h2>Admin Panel - Tour Packages</h2>
+
+<p>
+    <a asp-action="Create" class="btn btn-success">Add New Package</a>
+</p>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Package Name</th>
+            <th>Price</th>
+            <th>Duration</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Image</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.PackageName</td>
+                <td>@item.Price.ToString("C")</td>
+                <td>@item.DurationDays days</td>
+                <td>@item.StartDate.ToShortDateString()</td>
+                <td>@item.EndDate.ToShortDateString()</td>
+                <td>
+                    @if (!string.IsNullOrEmpty(item.ImagePath))
+                    {
+                        <img src="@item.ImagePath" alt="Image" width="80" height="50" />
+                    }
+                    else
+                    {
+                        <span>No Image</span>
+                    }
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.PackageID" class="btn btn-primary">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@item.PackageID" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
