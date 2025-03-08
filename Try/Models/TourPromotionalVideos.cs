@@ -9,28 +9,25 @@ namespace Try.Models
 		[Key]
 		public int VideoID { get; set; }
 
-		[Required]
-		public int TourID { get; set; }
+		public int PackageID { get; set; }
 
 		[Required]
 		[StringLength(255)]
 		public string? VideoTitle { get; set; }
 
-	
-		public string? VideoURL { get; set; }
+
+		public string? VideoFile { get; set; }
 
 		[StringLength(500)]
-		public string ?ThumbnailURL { get; set; }
+		public string? ThumbnailURL { get; set; }
 
 		public string? Description { get; set; }
 
 		[DataType(DataType.DateTime)]
 		public DateTime UploadedAt { get; set; } = DateTime.Now;
-	
 
-		// Navigation Property
-		[ForeignKey("TourID")]
-		public virtual TourPackages TourPackages { get; set; }
+
+
 
 
 

@@ -1,23 +1,30 @@
 ﻿@model IEnumerable<Try.Models.TourPromotionalVideos>
 
-
 @{
     ViewData["Title"] = "Tour Promotional Videos";
 }
 
-<h2 class="text-center">Tour Promotional Videos</h2>
+<h2 class="text-center mb-4"> Videos</h2>
 
 <div class="container">
-    <div class="row">
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+        <!-- 2-column layout for larger videos -->
         @foreach (var video in Model)
         {
-            <div class="col-md-4 mb-4">
-                <div class="card">
-                    <img src="@video.ThumbnailURL" class="card-img-top" alt="Video Thumbnail">
-                    <div class="card-body">
-                        <h5 class="card-title">@video.VideoTitle</h5>
-                        <p class="card-text">@video.Description</p>
-                        <a href="@video.VideoURL" class="btn btn-primary" target="_blank">Watch Video</a>
+            <div class="col">
+                <div class="card h-100 shadow-lg rounded-3" style="background: none; box-shadow: none;">
+                    <div class="card-body text-center">
+                        <h2 class="card-title fw-bold">@video.VideoTitle</h2>
+                        <p class="card-text fs-5">@video.Description</p>
+
+                        <video class="w-100 rounded-3" controls style="height: 400px; object-fit: cover;">
+                            <source src="@video.VideoFile" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+
+                        <a href="@video.VideoFile" class="btn btn-lg btn-success mt-3" target="_blank">
+                            🎥 Watch Full Video
+                        </a>
                     </div>
                 </div>
             </div>

@@ -1,0 +1,25 @@
+﻿@model Try.Models.TourPromotionalVideos
+
+@{
+    ViewData["Title"] = "Delete Video";
+}
+
+<h2 class="text-danger text-center">Are you sure you want to delete this video?</h2>
+
+<div class="container mt-5">
+    <div class="card shadow-lg p-4">
+        <h3 class="text-primary">@Model.VideoTitle</h3>
+        <p class="text-secondary">@Model.Description</p>
+
+        <video class="w-100 rounded-3 shadow-lg mt-3" controls style="height: 400px;">
+            <source src="@Model.VideoFile" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+
+        <form asp-action="DeleteConfirmed" method="post" class="mt-4">
+            <input type="hidden" asp-for="VideoID" />
+            <button type="submit" class="btn btn-lg btn-danger">Yes, Delete</button>
+            <a asp-action="Index" class="btn btn-lg btn-secondary">Cancel</a>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,49 @@
+﻿@model Try.Models.TourPromotionalVideos
+
+<h2 class="text-center mb-4 fw-bold">Edit Video</h2>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <form asp-action="Edit" method="post" enctype="multipart/form-data" class="p-4 shadow-lg rounded bg-white">
+                <input type="hidden" asp-for="VideoID" />
+
+                <div class="mb-3">
+                    <label asp-for="VideoTitle" class="form-label fw-bold">Video Title</label>
+                    <input asp-for="VideoTitle" class="form-control" />
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Current Video</label>
+                    <video class="w-100 rounded shadow-sm" controls style="height: 300px; object-fit: cover;">
+                        <source src="@Model.VideoFile" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+
+                <div class="mb-3">
+                    <label for="VideoFile" class="form-label fw-bold">Upload New Video (Optional)</label>
+                    <input type="file" name="VideoFile" class="form-control" />
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Description" class="form-label fw-bold">Description</label>
+                    <textarea asp-for="Description" class="form-control" rows="3"></textarea>
+                </div>
+
+                <!-- Dropdown for selecting PackageID -->
+                <div class="mb-3">
+                    <label asp-for="PackageID" class="form-label fw-bold">Select Package</label>
+                    <select asp-for="PackageID" asp-items="ViewBag.Packages" class="form-control">
+                        <option value="">-- Select a Package --</option>
+                    </select>
+                </div>
+
+                <div class="d-flex justify-content-between">
+                    <button type="submit" class="btn btn-success px-4">💾 Save Changes</button>
+                    <a asp-action="Index" class="btn btn-secondary px-4">⬅ Back to List</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

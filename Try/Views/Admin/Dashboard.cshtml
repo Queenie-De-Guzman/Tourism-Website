@@ -3,12 +3,12 @@
 }
 
 <div class="container mt-5">
-    <h2 class="text-center mb-4">Welcome to the Admin Dashboard</h2>
+    <h2 class="text-center mb-4 text-white">Welcome to the Admin Dashboard</h2>
 
-    <div class="row g-4">
+    <div class="row row-cols-1 row-cols-md-3 g-4">
         <!-- Manage Users -->
-        <div class="col-md-4">
-            <div class="card text-white bg-primary shadow-lg h-100">
+        <div class="col">
+            <div class="card text-white shadow-lg h-100" style="background-color: #4A90E2;">
                 <div class="card-body text-center">
                     <h5 class="card-title">Manage Users</h5>
                     <p class="card-text">View and manage all registered users.</p>
@@ -16,21 +16,21 @@
                 </div>
             </div>
         </div>
-        <!-- Feedback -->
-        <div class="col-md-4">
-            <div class="card text-white bg-success shadow-lg h-100">
+
+        <!-- Tour Promotional Video -->
+        <div class="col">
+            <div class="card text-white shadow-lg h-100" style="background-color: #50B948;">
                 <div class="card-body text-center">
                     <h5 class="card-title">Tour Promotional Video</h5>
-                    <p class="card-text">Promotional Video.</p>
-                    <a asp-controller="TourPromotionalVideo" asp-action="ListVideo" class="btn btn-light">View </a>
+                    <p class="card-text">Watch promotional videos.</p>
+                    <a asp-controller="TourPromotionalVideo" asp-action="ListVideo" class="btn btn-light">View</a>
                 </div>
             </div>
         </div>
 
-
         <!-- Destination -->
-        <div class="col-md-4">
-            <div class="card text-white bg-info shadow-lg h-100">
+        <div class="col">
+            <div class="card text-white shadow-lg h-100" style="background-color: #6BCABA;">
                 <div class="card-body text-center">
                     <h5 class="card-title">Destination</h5>
                     <p class="card-text">Check available destinations.</p>
@@ -40,8 +40,8 @@
         </div>
 
         <!-- Feedback -->
-        <div class="col-md-4">
-            <div class="card text-white bg-success shadow-lg h-100">
+        <div class="col">
+            <div class="card text-white shadow-lg h-100" style="background-color: #F4A261;">
                 <div class="card-body text-center">
                     <h5 class="card-title">Feedback</h5>
                     <p class="card-text">Review user feedback.</p>
@@ -51,8 +51,8 @@
         </div>
 
         <!-- Inquiries -->
-        <div class="col-md-4">
-            <div class="card text-white bg-warning shadow-lg h-100">
+        <div class="col">
+            <div class="card text-white shadow-lg h-100" style="background-color: #E76F51;">
                 <div class="card-body text-center">
                     <h5 class="card-title">Inquiries</h5>
                     <p class="card-text">Manage user inquiries.</p>
@@ -62,19 +62,19 @@
         </div>
 
         <!-- Packages -->
-        <div class="col-md-4">
-            <div class="card text-white bg-warning shadow-lg h-100">
+        <div class="col">
+            <div class="card text-white shadow-lg h-100" style="background-color: #8D6AB8;">
                 <div class="card-body text-center">
                     <h5 class="card-title">Tour Packages</h5>
-                    <p class="card-text">Manage Tour Pacakges.</p>
+                    <p class="card-text">Manage Tour Packages.</p>
                     <a asp-controller="Admin" asp-action="TourPackages" class="btn btn-light">View Tour Packages</a>
                 </div>
             </div>
         </div>
 
         <!-- Logout -->
-        <div class="col-md-4">
-            <div class="card text-white bg-danger shadow-lg h-100">
+        <div class="col">
+            <div class="card text-white shadow-lg h-100" style="background-color: #D72638;">
                 <div class="card-body text-center">
                     <h5 class="card-title">Logout</h5>
                     <p class="card-text">End your session securely.</p>

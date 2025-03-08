@@ -9,7 +9,7 @@
                 <div class="text-center mb-3">
                     <img src="/images/image-removebg-preview (3).png" alt="Logo" class="img-fluid" style="max-width: 150px;">
                 </div>
-                <div class="card-header bg-primary text-white text-center">
+                <div class="card-header text-white text-center" style="background-color: #55883b;">
                     <h4>Login</h4>
                 </div>
                 <div class="card-body">
@@ -20,13 +20,13 @@
                     <form asp-action="Login" method="post">
                         <div class="mb-3">
                             <label class="form-label">Username</label>
-                            <input type="Username" name="username" class="form-control" required />
+                            <input type="text" name="username" class="form-control" required />
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Password</label>
-                            <input type="Password" name="password" class="form-control" required />
+                            <input type="password" name="password" class="form-control" required />
                         </div>
-                        <button type="submit" class="btn btn-primary w-100">Login</button>
+                        <button type="submit" class="btn w-100 text-white" style="background-color: #55883b;">Login</button>
                     </form>
                 </div>
             </div>

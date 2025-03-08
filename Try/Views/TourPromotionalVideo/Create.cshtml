@@ -3,20 +3,27 @@
 <h2>Add New Video</h2>
 <form asp-action="Create" method="post" enctype="multipart/form-data">
     <div class="form-group">
-        <label asp-for="VideoTitle" class="form-label">Title</label>
-        <input asp-for="VideoTitle" class="form-control" required>
-        <span asp-validation-for="VideoTitle" class="text-danger"></span>
+        <label asp-for="VideoTitle"></label>
+        <input asp-for="VideoTitle" class="form-control" />
     </div>
 
     <div class="form-group">
-        <label asp-for="VideoURL" class="form-label">Upload Video</label>
-        <input type="file" name="VideoFile" class="form-control" accept="video/*" required>
-        <span asp-validation-for="VideoURL" class="text-danger"></span>
+        <label for="VideoFile">Upload Video</label>
+        <input type="file" name="VideoFile" class="form-control" />
     </div>
 
-    <button type="submit" class="btn btn-success mt-2">Save</button>
-</form>
+    <div class="form-group">
+        <label asp-for="Description"></label>
+        <textarea asp-for="Description" class="form-control"></textarea>
+    </div>
 
-@section Scripts {
-    <partial name="_ValidationScriptsPartial" />
-}
+    <!-- Dropdown for selecting PackageID -->
+    <div class="form-group">
+        <label asp-for="PackageID">Select Package</label>
+        <select asp-for="PackageID" asp-items="ViewBag.Packages" class="form-control">
+            <option value="">-- Select a Package --</option>
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>

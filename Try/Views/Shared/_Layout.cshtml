@@ -14,55 +14,110 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/LTS_app.styles.css" asp-append-version="true" />
+
+    <style>
+        /* Custom Styles */
+        .navbar {
+            background-color: #c2e69a !important; /* Light Green */
+        }
+
+        .navbar-brand img {
+            height: 40px; /* Adjust logo size */
+            margin-right: 10px;
+        }
+
+        .navbar-brand, .nav-link {
+            color: #004d40 !important; /* Dark Green */
+        }
+
+            .nav-link:hover {
+                color: #55883b !important; /* Slightly darker green */
+            }
+
+        .btn-auth {
+            border-radius: 20px;
+            padding: 6px 20px;
+            color: white !important;
+            background-color: #55883b !important; /* Medium Green */
+            border: none;
+        }
+
+            .btn-auth:hover {
+                background-color: #9b6738 !important; /* Brownish-Green */
+            }
+
+        .container {
+            max-width: 1100px;
+        }
+
+        footer {
+            background-color: #c2e69a; /* Light Green */
+            color: #004d40;
+        }
+
+            footer a {
+                color: #004d40;
+                text-decoration: none;
+            }
+
+                footer a:hover {
+                    text-decoration: underline;
+                }
+    </style>
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom shadow-sm mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">TW_app</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <nav class="navbar navbar-expand-lg navbar-light shadow-sm">
+            <div class="container">
+                <a class="navbar-brand fw-bold" asp-area="" asp-controller="Home" asp-action="Index">
+                    <img src="~/images/image-removebg-preview (3).png" alt=""> TW_app
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav me-auto">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
                         @if (!isAuthenticated)
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Login">Login</a>
+                                <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Register">Register</a>
+                                <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                             </li>
                         }
                     </ul>
-                    @if (isAuthenticated)
-                    {
-                        <ul class="navbar-nav">
+                    <ul class="navbar-nav">
+                        @if (!isAuthenticated)
+                        {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Logout">Logout</a>
+                                <a class="btn btn-auth me-2" asp-controller="User" asp-action="Login">Login</a>
                             </li>
-                        </ul>
-                    }
+                            <li class="nav-item">
+                                <a class="btn btn-auth" asp-controller="User" asp-action="Register">Register</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="btn btn-danger btn-auth" asp-controller="User" asp-action="Logout">Logout</a>
+                            </li>
+                        }
+                    </ul>
                 </div>
             </div>
         </nav>
     </header>
 
-    <div class="container">
-        <main role="main" class="pb-3">
+    <div class="container mt-4">
+        <main role="main">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted text-center py-3">
+    <footer class="text-center py-3 mt-5">
         <div class="container">
-            &copy; 2025 - TW_app - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2025 - TW_app - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy Policy</a>
         </div>
     </footer>
 
