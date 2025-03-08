@@ -3,49 +3,52 @@ using System.Diagnostics;
 using Try.Models;
 using Try.Services;
 
-public class HomeController : Controller
+namespace Try.Controllers
 {
-	private readonly ILogger<HomeController> _logger;
-	private readonly ApplicationDbContext _context;
-
-	public HomeController(ApplicationDbContext context, ILogger<HomeController> logger)
+	public class HomeController : Controller
 	{
-		_context = context;
-		_logger = logger;
-	}
+		private readonly ILogger<HomeController> _logger;
+		private readonly ApplicationDbContext _context;
 
-	public IActionResult Index()
-	{
-		var destinations = _context.Destinations.ToList(); // Ensure this is not null
-		return View(destinations);
-	}
+		public HomeController(ApplicationDbContext context, ILogger<HomeController> logger)
+		{
+			_context = context;
+			_logger = logger;
+		}
 
-	public IActionResult Privacy()
-	{
-		return View();
-	}
+		public IActionResult Index()
+		{
+			var destinations = _context.Destinations.ToList(); // Ensure this is not null
+			return View(destinations);
+		}
 
-	[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-	public IActionResult Error()
-	{
-		return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-	}
+		public IActionResult Privacy()
+		{
+			return View();
+		}
 
-
-	public IActionResult TourPackages() 
-	{
-
-		var tourpackages = _context.TourPackages.ToList(); // Ensure this is not null
-		return View(tourpackages);
-		
-	}
+		[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+		public IActionResult Error()
+		{
+			return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+		}
 
 
-	public IActionResult DestinationSpot()
-	{
+		public IActionResult TourPackages()
+		{
 
-		var tourpackages = _context.TourPackages.ToList(); // Ensure this is not null
-		return View(tourpackages);
+			var tourpackages = _context.TourPackages.ToList(); // Ensure this is not null
+			return View(tourpackages);
 
+		}
+
+
+		public IActionResult DestinationSpot()
+		{
+
+			var tourpackages = _context.TourPackages.ToList(); // Ensure this is not null
+			return View(tourpackages);
+
+		}
 	}
 }

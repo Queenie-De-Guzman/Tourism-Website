@@ -34,53 +34,7 @@ public IActionResult Create()
     return View();
 }
 
-// POST: TourPromotionalVideos/Create
-[HttpPost]
-[ValidateAntiForgeryToken]
-public async Task<IActionResult> Create(TourPromotionalVideos tourpromotionalvideos)
-{
-    if (ModelState.IsValid)
-    {
-        if (tourpromotionalvideos.VideoFile != null)
-        {
-            var allowedExtensions = new[] { ".mp4", ".avi", ".mov", ".wmv" };
-            var fileExtension = Path.GetExtension(tourpromotionalvideos.VideoFile.FileName).ToLower();
 
-            if (!allowedExtensions.Contains(fileExtension))
-            {
-                ModelState.AddModelError("VideoFile", "Invalid file format. Only MP4, AVI, MOV, and WMV are allowed.");
-                return View(tourpromotionalvideos);
-            }
-
-            if (tourpromotionalvideos.VideoFile.Length > 50 * 1024 * 1024) // Limit to 50MB
-            {
-                ModelState.AddModelError("VideoFile", "File size exceeds the 50MB limit.");
-                return View(tourpromotionalvideos);
-            }
-
-            var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/videos");
-            if (!Directory.Exists(uploadsFolder))
-            {
-                Directory.CreateDirectory(uploadsFolder);
-            }
-
-            var uniqueFileName = Guid.NewGuid().ToString() + fileExtension;
-            var filePath = Path.Combine(uploadsFolder, uniqueFileName);
-
-            using (var stream = new FileStream(filePath, FileMode.Create))
-            {
-                await tourpromotionalvideos.VideoFile.CopyToAsync(stream);
-            }
-
-            tourpromotionalvideos.VideoURL = "/videos/" + uniqueFileName;
-        }
-
-        _context.Add(tourpromotionalvideos);
-        await _context.SaveChangesAsync();
-        return RedirectToAction(nameof(Index));
-    }
-    return View(tourpromotionalvideos);
-}
 
 			 // GET: TourPromotionalVideos/Edit/5
 		public async Task<IActionResult> Edit(int? id)

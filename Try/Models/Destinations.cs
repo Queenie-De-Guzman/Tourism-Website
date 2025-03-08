@@ -22,8 +22,7 @@ namespace Try.Models
 		[StringLength(500)]
 		public string? ImageURL { get; set; }
 
-		[NotMapped] // Prevents it from being stored in the database
-		public IFormFile? ImageURLFile { get; set; } // This will handle file uploads
+
 
 		[Required]
 		public DateTime CreatedAt { get; set; } = DateTime.Now;

@@ -5,7 +5,7 @@ using Try.Models;
 using Try.Services;
 
 
-namespace Destination.Controllers
+namespace Try.Controllers
 {
 
 	public class DestinationController : Controller
@@ -34,13 +34,26 @@ namespace Destination.Controllers
 			return View();
 		}
 
-		// CREATE: Save form data
+
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> Create(Destinations destinations)
+		public async Task<IActionResult> Create(Destinations destinations, IFormFile ImageURL)
 		{
 			if (ModelState.IsValid)
 			{
+				if (ImageURL != null && ImageURL.Length > 0)
+				{
+					var fileName = Path.GetFileName(ImageURL.FileName);
+					var filePath = Path.Combine("wwwroot/images", fileName);
+
+					using (var stream = new FileStream(filePath, FileMode.Create))
+					{
+						await ImageURL.CopyToAsync(stream);
+					}
+
+					destinations.ImageURL = "/images/" + fileName;
+				}
+
 				_context.Destinations.Add(destinations);
 				await _context.SaveChangesAsync();
 				return RedirectToAction(nameof(Destinations));
@@ -62,57 +75,71 @@ namespace Destination.Controllers
 			return View(destinations);
 		}
 
-		// UPDATE: Show edit form
-		public async Task<IActionResult> Edit(int? id)
+		public async Task<IActionResult> Edit(int id)
 		{
-			if (id == null) return NotFound();
-
 			var destinations = await _context.Destinations.FindAsync(id);
-			if (destinations == null) return NotFound();
-
+			if (destinations == null)
+			{
+				return NotFound();
+			}
 			return View(destinations);
 		}
 
-		// UPDATE: Save edited data
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> Edit(int id, Destinations destinations)
+		public async Task<IActionResult> Edit(int id, Destinations destinations, IFormFile ImageURL)
 		{
-			if (id != destinations.DestinationID) return NotFound();
+			if (id != destinations.DestinationID)
+			{
+				return NotFound();
+			}
 
 			if (ModelState.IsValid)
 			{
 				try
 				{
+					if (ImageURL != null && ImageURL.Length > 0)
+					{
+						var fileName = Path.GetFileName(ImageURL.FileName);
+						var filePath = Path.Combine("wwwroot/images", fileName);
+
+						using (var stream = new FileStream(filePath, FileMode.Create))
+						{
+							await ImageURL.CopyToAsync(stream);
+						}
+
+						destinations.ImageURL = "/images/" + fileName;
+					}
+
 					_context.Update(destinations);
 					await _context.SaveChangesAsync();
 				}
 				catch (DbUpdateConcurrencyException)
 				{
 					if (!_context.Destinations.Any(e => e.DestinationID == id))
+					{
 						return NotFound();
+					}
 					else
+					{
 						throw;
+					}
 				}
 				return RedirectToAction(nameof(Destinations));
 			}
 			return View(destinations);
 		}
 
-		// DELETE: Show confirmation page
-		public async Task<IActionResult> Delete(int? id)
+		public async Task<IActionResult> Delete(int id)
 		{
-			if (id == null) return NotFound();
-
-			var destinations = await _context.Destinations
-				.FirstOrDefaultAsync(m => m.DestinationID == id);
-
-			if (destinations == null) return NotFound();
-
+			var destinations = await _context.Destinations.FindAsync(id);
+			if (destinations == null)
+			{
+				return NotFound();
+			}
 			return View(destinations);
 		}
 
-		// DELETE: Confirm and remove from database
 		[HttpPost, ActionName("Delete")]
 		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> DeleteConfirmed(int id)
@@ -120,10 +147,21 @@ namespace Destination.Controllers
 			var destinations = await _context.Destinations.FindAsync(id);
 			if (destinations != null)
 			{
+				// Delete the image file if it exists
+				if (!string.IsNullOrEmpty(destinations.ImageURL))
+				{
+					var filePath = Path.Combine("wwwroot", destinations.ImageURL.TrimStart('/'));
+					if (System.IO.File.Exists(filePath))
+					{
+						System.IO.File.Delete(filePath);
+					}
+				}
+
 				_context.Destinations.Remove(destinations);
 				await _context.SaveChangesAsync();
 			}
-			return RedirectToAction(nameof(destinations));
+			return RedirectToAction(nameof(Destinations));
 		}
+
 	}
 }

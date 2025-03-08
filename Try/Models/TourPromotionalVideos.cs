@@ -14,23 +14,19 @@ namespace Try.Models
 
 		[Required]
 		[StringLength(255)]
-		public string VideoTitle { get; set; }
+		public string? VideoTitle { get; set; }
 
-		[Required]
+	
+		public string? VideoURL { get; set; }
+
 		[StringLength(500)]
-		public string VideoURL { get; set; }
+		public string ?ThumbnailURL { get; set; }
 
-		[StringLength(500)]
-		public string ThumbnailURL { get; set; }
-
-		public string Description { get; set; }
+		public string? Description { get; set; }
 
 		[DataType(DataType.DateTime)]
 		public DateTime UploadedAt { get; set; } = DateTime.Now;
 	
-		
-		[NotMapped] // This property is only used in the form, not in the database
-         public IFormFile VideoFile { get; set; }
 
 		// Navigation Property
 		[ForeignKey("TourID")]

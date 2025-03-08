@@ -1,0 +1,24 @@
+﻿@model Try.Models.Destinations
+
+@{
+    ViewData["Title"] = "Delete Destination";
+}
+
+<h2>Are you sure you want to delete this destination?</h2>
+
+<div>
+    <h4>@Model.Name</h4>
+    <p><strong>Location:</strong> @Model.Location</p>
+    <p><strong>Description:</strong> @Model.Description</p>
+
+    @if (!string.IsNullOrEmpty(Model.ImageURL))
+    {
+        <img src="@Model.ImageURL" alt="Destination Image" width="200" />
+    }
+
+    <form asp-action="Delete" method="post">
+        <input type="hidden" asp-for="DestinationID" />
+        <button type="submit" class="btn btn-danger">Delete</button>
+        <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>

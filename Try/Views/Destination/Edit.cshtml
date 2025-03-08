@@ -6,14 +6,13 @@
 
 <h2>Edit Destination</h2>
 
-<form asp-action="Edit">
+<form asp-action="Edit" enctype="multipart/form-data">
     <input type="hidden" asp-for="DestinationID" />
 
     <div class="mb-3">
         <label class="form-label">Name</label>
         <input asp-for="Name" class="form-control" required />
-    </div>
-
+    </div>html4fXWW
     <div class="mb-3">
         <label class="form-label">Location</label>
         <input asp-for="Location" class="form-control" required />
@@ -25,10 +24,18 @@
     </div>
 
     <div class="mb-3">
-        <label class="form-label">Image URL</label>
-        <input asp-for="ImageURL" class="form-control" />
+        <label class="form-label">Current Image</label><br />
+        @if (!string.IsNullOrEmpty(Model.ImageURL))
+        {
+            <img src="@Model.ImageURL" alt="Destination Image" width="150" />
+        }
     </div>
 
-    <button type="submit" class="btn btn-warning">Update</button>
+    <div class="mb-3">
+        <label class="form-label">Upload New Image</label>
+        <input type="file" name="ImageURL" class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-success">Save</button>
     <a asp-action="Index" class="btn btn-secondary">Cancel</a>
 </form>

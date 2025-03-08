@@ -6,7 +6,7 @@
 
 <h2>Add Destination</h2>
 
-<form asp-action="Create">
+<form asp-action="Create" enctype="multipart/form-data">
     <div class="mb-3">
         <label class="form-label">Name</label>
         <input asp-for="Name" class="form-control" required />
@@ -23,8 +23,8 @@
     </div>
 
     <div class="mb-3">
-        <label class="form-label">Image URL</label>
-        <input asp-for="ImageURL" class="form-control" />
+        <label class="form-label">Upload Image</label>
+        <input type="file" name="ImageURL" class="form-control" />
     </div>
 
     <button type="submit" class="btn btn-success">Save</button>
