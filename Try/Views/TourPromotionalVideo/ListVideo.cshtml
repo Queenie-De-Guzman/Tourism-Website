@@ -30,7 +30,13 @@
 
                 <td>
                     <a href="@Url.Action("Edit", new { id = video.VideoID })" class="btn btn-primary">Edit</a>
-                    <a href="@Url.Action("Delete", new { id = video.VideoID })" class="btn btn-danger">Delete</a>
+                    <form asp-controller="TourPromotionalVideo" asp-action="Delete" asp-route-id="@video.VideoID"method="post">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+
+                
+
+
                 </td>
             </tr>
         }

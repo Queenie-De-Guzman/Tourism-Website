@@ -1,0 +1,49 @@
+﻿@model BlogPosts
+
+@{
+    ViewData["Title"] = "Edit Blog Post";
+}
+
+<h2>Edit Blog Post</h2>
+
+<form asp-action="Edit" method="post" enctype="multipart/form-data">
+    <input type="hidden" asp-for="id" />
+
+    <div class="mb-3">
+        <label asp-for="title" class="form-label">Title</label>
+        <input asp-for="title" class="form-control" required />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="location" class="form-label">Location</label>
+        <input asp-for="location" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="date" class="form-label">Date</label>
+        <input asp-for="date" type="date" class="form-control" required />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="description" class="form-label">Description</label>
+        <textarea asp-for="description" class="form-control"></textarea>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Current Image</label>
+        @if (!string.IsNullOrEmpty(Model.imageFile))
+        {
+            <div>
+                <img src="@Model.imageFile" width="150" />
+            </div>
+        }
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Upload New Image (Optional)</label>
+        <input type="file" name="image" class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-success">Update</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>

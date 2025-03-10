@@ -6,6 +6,10 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Try.Controllers
 {
@@ -29,10 +33,8 @@ namespace Try.Controllers
 			return View();
 		}
 
-
-		// POST: User/Login
 		[HttpPost]
-		public IActionResult Login(string username, string password)
+		public async Task<IActionResult> Login(string username, string password)
 		{
 			if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
 			{
@@ -49,16 +51,27 @@ namespace Try.Controllers
 				return View();
 			}
 
-			// Store user session
-			HttpContext.Session.SetInt32("UserId", user.Id);
-			HttpContext.Session.SetString("Username", user.Username);
-			HttpContext.Session.SetString("Role", user.Role);
+			// Create user claims
+			var claims = new List<Claim>
+	{
+		new Claim(ClaimTypes.Name, user.Username),
+		new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+		new Claim(ClaimTypes.Role, user.Role)
+	};
+
+			var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+			var authProperties = new AuthenticationProperties { IsPersistent = true };
+
+			// Sign in user
+			await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
+				new ClaimsPrincipal(claimsIdentity), authProperties);
 
 			return user.Role == "Admin"
 				? RedirectToAction("Dashboard", "Admin")
 				: RedirectToAction("Dashboard", "User");
-		} 
-		
+		}
+
+
 		// GET: User/Register
 		public IActionResult Register()
 		{
@@ -102,9 +115,9 @@ namespace Try.Controllers
 
 
 		// GET: User/Logout
-		public IActionResult Logout()
+		public async Task<IActionResult> Logout()
 		{
-			HttpContext.Session.Clear();
+			await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 			return RedirectToAction("Login");
 		}
 
@@ -143,12 +156,11 @@ namespace Try.Controllers
 		}
 
 		// Dashboard for user
+
+		[Authorize(Roles = "User")]
 		public IActionResult Dashboard()
 		{
-			if (HttpContext.Session.GetString("Role") != "User")
-			{
-				return RedirectToAction("Login", "User");
-			}
+		
 			return View();
 		}
 
@@ -227,6 +239,12 @@ namespace Try.Controllers
 			}
 
 			return View(feedback); // Return form with validation errors
+		}
+
+
+		public IActionResult AccessDenied()
+		{
+			return View();
 		}
 	}
 }

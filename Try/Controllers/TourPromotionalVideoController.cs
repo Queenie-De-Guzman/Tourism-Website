@@ -147,7 +147,7 @@ namespace Try.Controllers
 			return View(tourpromotionalvideos);
 		}
 
-		// GET: Delete Confirmation Page
+		//GET: Delete Confirmation Page
 		public async Task<IActionResult> Delete(int? id)
 		{
 			if (id == null) return NotFound();
@@ -157,19 +157,33 @@ namespace Try.Controllers
 
 			return View(tourpromotionalvideos);
 		}
-		[HttpPost, ActionName("Delete")]
+
+		// FIXED DELETE FUNCTION
+		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> DeleteConfirmed(int id)
+		public async Task<IActionResult> Delete(int id)
 		{
 			var tourpromotionalvideos = await _context.TourPromotionalVideos.FindAsync(id);
 			if (tourpromotionalvideos != null)
 			{
+				// Delete video file from the server
+				if (!string.IsNullOrEmpty(tourpromotionalvideos.VideoFile))
+				{
+					string filePath = Path.Combine(_webHostEnvironment.WebRootPath, tourpromotionalvideos.VideoFile.TrimStart('/'));
+					if (System.IO.File.Exists(filePath))
+					{
+						System.IO.File.Delete(filePath);
+					}
+				}
+
+				// Remove record from database
 				_context.TourPromotionalVideos.Remove(tourpromotionalvideos);
 				await _context.SaveChangesAsync();
 			}
 
-			return View("DeleteConfirmed"); // Redirect to the confirmation page
+			return RedirectToAction(nameof(ListVideo)); // Redirect to video list
 		}
+
 
 
 		private bool TourPromotionalVideoExists(int id)

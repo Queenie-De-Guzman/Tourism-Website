@@ -1,0 +1,30 @@
+﻿@model IEnumerable<BlogPosts>
+
+@{
+    ViewData["Title"] = "Blog Posts";
+}
+
+<h2>Blog Posts</h2>
+<a class="btn btn-primary" asp-action="Create">Create New Post</a>
+<hr />
+
+@foreach (var post in Model)
+{
+    <div class="card mb-3" style="max-width: 600px;">
+        <div class="row g-0">
+            <div class="col-md-4">
+                @if (!string.IsNullOrEmpty(post.imageFile))
+                {
+                    <img src="@post.imageFile" class="img-fluid rounded-start" alt="Blog Image">
+                }
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title">@post.title</h5>
+                    <p class="card-text"><small class="text-muted">@post.location | @post.date.ToString("MMMM dd, yyyy")</small></p>
+                    <p class="card-text">@post.description</p>
+                </div>
+            </div>
+        </div>
+    </div>
+}

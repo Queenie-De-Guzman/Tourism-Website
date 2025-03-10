@@ -1,8 +1,9 @@
-﻿@using Microsoft.AspNetCore.Http
-@inject IHttpContextAccessor HttpContextAccessor
+﻿@using System.Security.Claims
 
 @{
-    var isAuthenticated = HttpContextAccessor.HttpContext.Session.GetInt32("UserId") != null;
+    var user = User;
+    var isAuthenticated = user.Identity.IsAuthenticated;
+    var userRole = user.FindFirst(ClaimTypes.Role)?.Value;
 }
 
 <!DOCTYPE html>
@@ -77,16 +78,33 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav me-auto">
-                        @if (!isAuthenticated)
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="TourPromotionalVideo" asp-action="Index">Film</a>
+                        </li>
+
+                        @if (isAuthenticated)
                         {
-                            <li class="nav-item">
-                                <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                            </li>
+                            if (userRole == "Admin")
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-controller="Admin" asp-action="Dashboard">Admin Dashboard</a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-controller="User" asp-action="Dashboard">Dashboard</a>
+                                </li>
+                            }
                         }
                     </ul>
+
                     <ul class="navbar-nav">
                         @if (!isAuthenticated)
                         {
@@ -100,7 +118,9 @@
                         else
                         {
                             <li class="nav-item">
-                                <a class="btn btn-danger btn-auth" asp-controller="User" asp-action="Logout">Logout</a>
+                                <form method="post" asp-controller="User" asp-action="Logout">
+                                    <button type="submit" class="btn btn-danger btn-auth">Logout</button>
+                                </form>
                             </li>
                         }
                     </ul>
@@ -117,7 +137,7 @@
 
     <footer class="text-center py-3 mt-5">
         <div class="container">
-            &copy; 2025 - TW_app - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy Policy</a>
+            &copy; 2025 - TW_app - <a asp-controller="Home" asp-action="Privacy">Privacy Policy</a>
         </div>
     </footer>
 
@@ -125,5 +145,15 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
+
+    <script>
+        (function () {
+            window.history.pushState(null, "", window.location.href);
+            window.onpopstate = function () {
+                window.history.pushState(null, "", window.location.href);
+            };
+        })();
+    </script>
+
 </body>
 </html>

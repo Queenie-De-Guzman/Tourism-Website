@@ -8,7 +8,7 @@ namespace Try.Services
 	{
 		public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
-		
+
 		public DbSet<Users> Users { get; set; }
 		public DbSet<Inquiries> Inquiries { get; set; }
 
@@ -16,6 +16,6 @@ namespace Try.Services
 		public DbSet<TourPackages> TourPackages { get; set; }
 		public DbSet<Destinations> Destinations { get; set; }
 		public DbSet<TourPromotionalVideos> TourPromotionalVideos { get; set; }
-
+		public DbSet<BlogPosts> BlogPosts { get; set; }
 	}
 }

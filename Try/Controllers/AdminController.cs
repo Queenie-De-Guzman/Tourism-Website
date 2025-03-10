@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Try.Services;
 using Try.Models;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Authorization;
 
 
 namespace Try.Controllers
@@ -24,12 +25,10 @@ namespace Try.Controllers
         {
             return View();
         }
+		[Authorize(Roles = "Admin")]
 		public IActionResult Dashboard()
 		{
-			if (HttpContext.Session.GetString("Role") != "Admin")
-			{
-				return RedirectToAction("Login", "User");
-			}
+		
 			return View();
 		}
 

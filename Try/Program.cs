@@ -1,8 +1,10 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using Try.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Add services to the container
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddSession(options =>
 {
@@ -10,6 +12,16 @@ builder.Services.AddSession(options =>
 	options.Cookie.HttpOnly = true;
 	options.Cookie.IsEssential = true;
 });
+
+// Configure authentication with Cookies
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+	.AddCookie(options =>
+	{
+		options.LoginPath = "/User/Login"; // Redirect if not authenticated
+		options.AccessDeniedPath = "/User/AccessDenied"; // Redirect if unauthorized
+		options.ExpireTimeSpan = TimeSpan.FromMinutes(30); // Set expiration time
+		options.SlidingExpiration = true;
+	});
 
 // Configure database connection
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -31,9 +43,11 @@ app.UseHttpsRedirection();
 app.UseStaticFiles(); // Ensure static assets (CSS, JS, images) are served
 
 app.UseRouting();
+
 app.UseSession(); // Enable session middleware
-app.UseAuthentication(); // Enable authentication (important)
-app.UseAuthorization();
+
+app.UseAuthentication(); // Enable authentication (before authorization)
+app.UseAuthorization();  // Enable role-based authorization
 
 app.MapControllerRoute(
 	name: "default",
@@ -41,4 +55,3 @@ app.MapControllerRoute(
 );
 
 app.Run();
-	
