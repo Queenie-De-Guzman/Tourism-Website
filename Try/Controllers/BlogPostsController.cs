@@ -34,7 +34,7 @@ namespace Try.Controllers
 		}
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public IActionResult Create(BlogPosts blogposts, IFormFile imageFile)
+		public async Task<IActionResult> Create(BlogPosts blogposts, IFormFile imageFile)
 		{
 			if (ModelState.IsValid)
 			{
@@ -46,7 +46,7 @@ namespace Try.Controllers
 
 					using (var fileStream = new FileStream(filePath, FileMode.Create))
 					{
-						imageFile.CopyTo(fileStream); // FIXED: Using imageFile instead of blogposts
+						imageFile.CopyTo(fileStream);
 					}
 
 					blogposts.imageFile = "/images/" + uniqueFileName; // Save the relative path
